@@ -15,7 +15,6 @@ import java.util.List;
 public class InstructorAnalyticsController {
     @Autowired
     private InstructorAnalyticsService instructorAnalyticsService;
-
     @GetMapping
     public ResponseEntity<List<InstructorAnalyticsDTO>> getInstructorAnalytics() {
         List<InstructorAnalyticsDTO> analytics = instructorAnalyticsService.getInstructorAnalytics();

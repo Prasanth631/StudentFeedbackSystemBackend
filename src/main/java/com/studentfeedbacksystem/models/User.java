@@ -6,7 +6,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-@Entity	
+/**
+ * Entity class representing a User in the Student Feedback and Evaluation System.
+ */
+@Entity
 @Table(name = "users", 
     uniqueConstraints = {
         @UniqueConstraint(columnNames = "username", name = "unique_username"),
@@ -20,7 +23,8 @@ public class User {
 
     @NotBlank(message = "Username cannot be blank")
     @Size(min = 4, max = 20, message = "Username must be between 4 and 20 characters")
-    @Pattern(regexp = "^[a-zA-Z0-9_-]+$", message = "Username can only contain letters, numbers, underscores, and hyphens")
+    @Pattern(regexp = "^[a-zA-Z0-9_-]+$", 
+             message = "Username can only contain letters, numbers, underscores, and hyphens")
     @Column(unique = true, nullable = false)
     private String username;
 
@@ -37,17 +41,14 @@ public class User {
 
     @NotBlank(message = "Password cannot be blank")
     @Size(min = 8, max = 64, message = "Password must be between 8 and 64 characters")
-    @Pattern.List({
-        @Pattern(regexp = ".*[A-Z].*", message = "Password must contain at least one uppercase letter"),
-        @Pattern(regexp = ".*[a-z].*", message = "Password must contain at least one lowercase letter"),
-        @Pattern(regexp = ".*\\d.*", message = "Password must contain at least one number"),
-        @Pattern(regexp = ".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*", message = "Password must contain at least one special character")
-    })
-    @Column(nullable = false)
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=])(?!.*\\s).{8,64}$", 
+             message = "Password must contain at least one lowercase, one uppercase, one digit, and one special character")
     private String password;
 
+
     @NotBlank(message = "Role cannot be blank")
-    @Pattern(regexp = "^(admin|faculty|student)$", message = "Role must be one of: admin, faculty, or student")
+    @Pattern(regexp = "^(admin|faculty|student)$", 
+             message = "Role must be one of: admin, faculty, or student")
     @Column(nullable = false)
     private String role;
 
@@ -55,7 +56,18 @@ public class User {
     @Column(name = "profile_picture", columnDefinition = "LONGBLOB")
     private byte[] profilePicture;
 
-    // Getters and setters
+    // Constructors
+    public User() {}
+
+    public User(String username, String email, String phoneNumber, String password, String role) {
+        this.username = username;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+        this.role = role;
+    }
+
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -110,5 +122,17 @@ public class User {
 
     public void setProfilePicture(byte[] profilePicture) {
         this.profilePicture = profilePicture;
+    }
+
+    // Additional Methods (if required)
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", role='" + role + '\'' +
+                '}';
     }
 }

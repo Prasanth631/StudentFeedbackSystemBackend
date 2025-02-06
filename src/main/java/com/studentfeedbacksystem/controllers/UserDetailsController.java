@@ -38,4 +38,5 @@ public class UserDetailsController {
 
         return ResponseEntity.ok(userDetails);
     }
+    
 }
