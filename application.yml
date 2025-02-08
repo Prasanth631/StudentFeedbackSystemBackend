@@ -31,7 +31,7 @@ spring:
       mail.smtp.starttls.enable: true
 
 server:
-  port: 8081
+  port: 8080
 
 jwt:
   secret-key: Yr2kWrQdCiQcL1zdXeQadJxmS7iCnwn+z6Gj5c7DYX0=
